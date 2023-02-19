@@ -1,0 +1,18 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+    <form method="post" class="site-form has-background-light">
+        {% csrf_token %}
+        <div class="content is-size-4 mb-4">
+            Вы действительно хотите удалить комментарий?
+        </div>
+        <div class="has-text-centered">
+            <button type="submit" class="button is-success">Удалить</button>
+            <a href="{% url 'blog:post_detail' post.slug %}" class="button is-warning">
+                Вернуться к посту
+            </a>
+        </div>
+    </form>
+
+{% endblock %}

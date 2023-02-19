@@ -1,0 +1,22 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+<form action="{% url 'blog:post_create' %}" class="site-form has-background-light" enctype="multiplate/form-data"
+method="post">
+    {% csrf_token %}
+    {% for field in form %}
+            <div class="field">
+                <label class="label" for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                </label>
+                {{ field }}
+            </div>
+        {% endfor %}
+    <div class="has-text-centered my-2">
+        <button type="submit" class="button is-success">Опубликовать</button>
+        <a href="{% url 'blog:home' %}" class="button is-danger">
+            Назад
+        </a>
+    </div>
+{% endblock %}

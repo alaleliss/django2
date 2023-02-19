@@ -1,0 +1,162 @@
+{% load static from static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'bulma.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+</head>
+<body>
+<section class="hero is-fullheight ny">
+    <!-- Hero head: will stick at the top -->
+    <div class="hero-head">
+        <header class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a class="navbar-item">
+                        <img src="https://msk.top-academy.ru/dist/images/logo/step_logo_rus.svg" alt="Logo">
+                    </a>
+                    <span class="navbar-burger" data-target="navbarMenuHeroC">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                </div>
+                <div class="navbar-start">
+                   <span class="navbar-item">
+                       <a href="{% url 'blog:post_create' %}" class="button is-text is-medium">
+                           <span class="mr-2">
+                               <ion-icon name="book-outline"></ion-icon>
+                           </span>
+                           <span>
+                               Создать пост
+                           </span>
+                       </a>
+                   </span>
+                </div>
+                <div id="navbarMenuHeroC" class="navbar-menu">
+                    <div class="navbar-end">
+                        <form action="{% url 'blog:home' %}" method="get">
+                            <div class="field has-addons mt-4 mr-2">
+                                <div class="control">
+                                    <input type="search" class="input" placeholder="Поиск постов" name="search">
+                                </div>
+                                <div class="control">
+                                    <button type="submit" class="button is-light">
+                                        <ion-icon name='search-outline'></ion-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        <a class="navbar-item my-4 mx-1 button is-light">
+                            Добро пожаловать: {{ user }}
+                        </a>
+                        <span class="navbar-item">
+                            <a class="button is-warning" href="{% url 'users:sign_out' %}">
+                                Выйти
+                            </a>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="columns is-centered">
+                <div class="column is-7" style="margin-left: 350px;">
+                    <div class="title is-3">
+                        Академия ТОП от всего сердца поздравляет вас с Новым годом! Желаем, всего самого доброго,
+                        светлого и прекрасного. Пусть исполняются самые заветные желания. Пусть Новый 2023 год
+                        станет самым ярким, успешным и счастливым!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<section class="section has-background-info-light">
+    <div class="container">
+        <div class="title is-2 has-text-centered my-6">
+            Читайте наши посты
+        </div>
+        <div class="columns is-centered is-multiline">
+            {% for article in articles %}
+                <div class="column is-3">
+                    <div class="card has-text-centered">
+                        <a href="{% url 'blog:post_detail' article.slug %}">
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-content">
+                                        <div class="title has-text-black is-2">
+                                            {{ article }}
+                                        </div>
+                                        <div class="subtitle is-6 has-text-grey">
+                                            {% if user == article.author %}
+                                                Опубликовано вами
+                                            {% else %}
+                                                Опубликовано {{ article.author }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                    {{ article.snippet }}
+                                    <br>
+                                    <br>
+                                    <div>{{ article.date }}</div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        {#        {{ articles }}#}
+        {#        <br>#}
+        {#    Предыдущая страница: {{ articles.has_previous }}#}
+        {#        <br>#}
+        {#    Следующая страница: {{ articles.has_next }}#}
+        {#        <br>#}
+        {#    Текущая страница: {{ articles.number }}#}
+        {#        <br>#}
+        {#    Количество страниц: {{ articles.paginator.num_pages }}#}
+
+        {#        {% if articles.has_previous %}#}
+        {#            <a href="?page=1">&laquo; Первая страница</a>#}
+        {#            <a href="?page={{ articles.previous_page_number }}">Назад</a>#}
+        {#        {% endif %}#}
+        {#        Страница: {{ articles.number }}#}
+        {#        из {{ articles.paginator.num_pages }}#}
+        {#        {% if articles.has_next %}#}
+        {#            <a href="?page={{ articles.next_page_number }}">Далее</a>#}
+        {#            <a href="?page={{ articles.paginator.num_pages }}">В конец</a>#}
+        {#        {% endif %}#}
+
+        <nav role="navigation" class="pagination is-centered my-6" aria-label="pagination">
+            {% if articles.has_previous %}
+                <a class="pagination-previous" href="?page={{ articles.previous_page_number }}">Назад</a>
+            {% endif %}
+            {% if articles.has_next %}
+                <a class="pagination-next" href="?page={{ articles.next_page_number }}">Далее</a>
+            {% endif %}
+            <ul class="pagination-list">
+                <li>
+                    <a class="pagination-link is-current" aria-label="{{ articles.number }}" aria-checked="page">
+                        {{ articles.number }}
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</section>
+</body>
+</html>

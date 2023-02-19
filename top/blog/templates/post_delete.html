@@ -1,0 +1,18 @@
+{% extends 'base_layout.html' %}
+{% block content %}
+
+<form method="post" class="site-form has-background-light" p-6>
+    {% csrf_token %}
+    <p class="subtitle has-text-centered is-4 my-4">
+        Вы действительно хотите удалить пост "{{ post }}"?
+        <br><br>
+        <button type="submit" class="button is-success">Да</button>
+        <a href="{% url 'blog:post_detail' post.slug %}" class="button is-warning">
+            Вернуться к посту
+        </a>
+    </p>
+</form>
+
+{% endblock %}
+
+

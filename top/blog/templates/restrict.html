@@ -1,0 +1,59 @@
+{% load static from static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'bulma.css' %}">
+</head>
+<body>
+<section class="hero has-background-info is-fullheight">
+    <div class="hero-head">
+        <header class="navbar">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a href="{% url 'blog:home' %}" class="navbar-item">
+                        <img src="https://msk.top-academy.ru/dist/images/logo/step_logo_rus.svg" alt="">
+                    </a>
+                    <span class="navbar-burger" data-target="navbarMenuHeroC">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                </div>
+            </div>
+        </header>
+
+    </div>
+    <div class="hero-body">
+        <div class="columns is-centered">
+            <div class="column is-6">
+                <div class="box has-text-centered">
+                    <div class="title is-3">
+                        Вы не можете
+                        {% if edit %}
+                            отредактировать
+                        {% else %}
+                            удалить
+                        {% endif %}
+                        этот комментарий
+                    </div>
+                    <div class="buttons is-grouped is-centered">
+                        <a href="{% url 'blog:post_detail' post.slug %}" class="button is-success">
+                            Назад
+                        </a>
+                        <a href="{% url 'blog:home' %}" class="button is-warning">
+                            Вернуться на главную
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>
